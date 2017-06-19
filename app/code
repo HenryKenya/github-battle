@@ -1,0 +1,184 @@
+class Users extends React.Component {
+  render() {
+    var friends = this.props.list.filter(function(user){
+      return user.friend === true
+    });
+      var nonFriends = this.props.list.filter(function(user){
+      return user.friend !== true
+    });
+    return (
+      <div>
+        <h1>Friends</h1>
+        <ul>
+          {friends.map(function(user){
+            return <li key ={user.name}>{user.name}</li>
+          })}
+        </ul>
+        
+        <hr />
+        
+        <h1> Non Friends </h1>
+        <ul>
+           {nonFriends.map(function(user){
+            return <li key ={user.name}>{user.name}</li>
+          })}
+        </ul>        
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(
+  <Users list={[
+    { name: 'Tyler', friend: true },
+    { name: 'Ryan', friend: true },
+    { name: 'Michael', friend: false },
+    { name: 'Mikenzi', friend: false },
+    { name: 'Jessica', friend: true },
+    { name: 'Dan', friend: false } ]} 
+  />,
+  document.getElementById('app')
+);
+
+
+
+//another one
+
+class Badge extends React.Component{
+  render() {
+    return(
+        <div>       
+            <img src = {this.props.img} />
+            <h1>{this.props.name}</h1>  
+            <h3>{this.props.username}</h3>
+
+          </div>
+         )
+  }
+}
+
+Badge.propTypes = {
+  name: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  img: PropTypes.string.isRequired
+}
+
+ReactDOM.render
+(
+  <Badge
+    name = 'Henry Onyango'
+    username = 'henri_derick'
+    img = 'https://www.seoclerk.com/pics/319222-1IvI0s1421931178.png'
+    
+  />,
+  document.getElementById('root')
+);
+
+
+// OLD CODE
+class Users extends React.Component {
+  render() {
+    var friends = this.props.list.filter(function(user){
+      return user.friend === true
+    });
+      var nonFriends = this.props.list.filter(function(user){
+      return user.friend !== true
+    });
+    return (
+      <div>
+        <h1>Friends</h1>
+        <ul>
+          {friends.map(function(user){
+            return <li key ={user.name}>{user.name}</li>
+          })}
+        </ul>
+        
+        <hr />
+        
+        <h1> Non Friends </h1>
+        <ul>
+           {nonFriends.map(function(user){
+            return <li key ={user.name}>{user.name}</li>
+          })}
+        </ul>        
+      </div>
+    )
+  }
+}
+Users.propTypes = {
+  list: PropTypes.array.isRequired
+}
+
+ReactDOM.render(
+  <Users list={[
+    { name: 'Tyler', friend: true },
+    { name: 'Ryan', friend: true },
+    { name: 'Michael', friend: false },
+    { name: 'Mikenzi', friend: false },
+    { name: 'Jessica', friend: true },
+    { name: 'Dan', friend: false } ]} 
+  />,
+  document.getElementById('app')
+);
+
+
+//PopularJS
+var React = require('react');
+var PropTypes = require('prop-types')
+
+class Popular extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedLanguage: 'All'
+    };
+
+    this.updateLanguage = this.updateLanguage.bind(this);
+  }
+
+  updateLanguage(lang){
+    this.setState(function(){
+      return{
+        selectedLanguage: lang
+      }
+    });
+  }
+  render(){
+    var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+    
+    return(
+        <ul className = 'languages'>
+
+          {languages.map(function (lang){ 
+            return (
+              <li 
+              key = {lang} 
+              onClick = {this.updateLanguage.bind(null, lang)}
+              style = {lang === this.state.selectedLanguage ? {color: '#d0021b'} : null}
+              >
+                {lang}
+              </li>
+              )
+          }, this)}
+        </ul>
+      )
+  }
+}
+
+module.exports = Popular;
+
+
+//Axios
+var axios = require('axios');
+
+module.exports = {
+  fetchPopularRepos: function (language) {
+    var encodedURI = window.encodeURI('https://api.github.com/search/repositories?q=stars:>1+language:'+ language + '&sort=stars&order=desc&type=Repositories');
+
+    return axios.get(encodedURI)
+      .then(function (response) {
+        return response.data.items;
+      });
+  }
+
+};
