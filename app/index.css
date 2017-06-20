@@ -142,3 +142,6 @@ li {
 .reset:hover {
   cursor: pointer;
 }
+.loading{
+  text-align: center;
+}
